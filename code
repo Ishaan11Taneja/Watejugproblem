@@ -1,0 +1,70 @@
+def water_jug_problem(jug_x_capacity: int, jug_y_capacity: int, goal: int) -> bool:
+    """
+    The function simulates the steps to reach a goal amount of water using two jugs of given capacities.
+    
+    :param jug_x_capacity: Capacity of jug X in liters
+    :type jug_x_capacity: int
+    :param jug_y_capacity: The jug_y_capacity parameter represents the capacity of jug Y in liters
+    :type jug_y_capacity: int
+    :param goal: The goal parameter represents the desired amount of water that we want to measure using
+    the two jugs. In this case, the goal is to measure 2 liters of water
+    :type goal: int
+    :return: a boolean value. It returns True if the goal amount of water is reached using the given
+    capacities of the jugs, and False otherwise.
+    """
+    # Check if the goal is a valid value
+    if goal < 0 or goal > jug_x_capacity + jug_y_capacity:
+        raise ValueError("Invalid goal")
+
+    jug_x, jug_y = 0, 0
+
+    while jug_x != goal and jug_y != goal:
+        # Fill jug X if it's empty
+        if jug_x == 0:
+            jug_x = jug_x_capacity
+            print(f"Fill jug X: ({jug_x}, {jug_y})")
+
+        # Pour water from X to Y until Y is full or X is empty
+        pour = min(jug_x, jug_y_capacity - jug_y)
+        jug_x -= pour
+        jug_y += pour
+        print(f"Pour from X to Y: ({jug_x}, {jug_y})")
+
+        # If Y is full, empty it
+        if jug_y == jug_y_capacity:
+            jug_y = 0
+            print(f"Empty jug Y: ({jug_x}, {jug_y})")
+
+        # Fill jug X if it's empty
+        if jug_x == 0:
+            jug_x = jug_x_capacity
+            print(f"Fill jug X: ({jug_x}, {jug_y})")
+
+        # Pour water from Y to X until X is full or Y is empty
+        pour = min(jug_y, jug_x_capacity - jug_x)
+        jug_x += pour
+        jug_y -= pour
+        print(f"Pour from Y to X: ({jug_x}, {jug_y})")
+
+        # If X is full, empty it
+        if jug_x == jug_x_capacity:
+            jug_x = 0
+            print(f"Empty jug X: ({jug_x}, {jug_y})")
+
+    # Check if the goal was reached
+    if jug_x == goal or jug_y == goal:
+        print(f"Goal reached! ({jug_x}, {jug_y})")
+        return True
+
+    # If we get here, the goal was not reached
+    print("Goal not reached.")
+    return False
+
+# Set the capacities and goal
+jug_x_capacity = 3  # Jug X capacity
+jug_y_capacity = 4  # Jug Y capacity
+goal = 2  # Goal amount of water
+
+# Call the function and print the steps
+print("The steps in water jug problem to reach goal of 2L capacity:")
+water_jug_problem(jug_x_capacity, jug_y_capacity, goal)
